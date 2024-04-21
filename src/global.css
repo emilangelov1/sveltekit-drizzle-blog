@@ -1,0 +1,17 @@
+@font-face {
+	font-family: 'Audrey Normal';
+	font-style: normal;
+	font-weight: normal;
+	src: url('../static/fonts/Audrey-Normal.otf'), format('otf');
+}
+
+@font-face {
+	font-family: 'Audrey Bold';
+	font-style: bold;
+	font-weight: normal;
+	src: url('../static/fonts/Audrey-Bold.otf'), format('otf');
+}
+
+body {
+	font-family: 'Audrey Normal', sans-serif;
+}
