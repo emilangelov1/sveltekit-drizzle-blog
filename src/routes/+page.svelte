@@ -1,17 +1,34 @@
-<script>
-	import Blog from '$lib/components/Blog/blog.svelte';
+<script lang="ts">
+	import Blog from '$lib/components/BlogPreview/blogPreview.svelte';
+	import Header from '$lib/components/Header/header.svelte';
 	import '../global.css';
 
 	export let data;
-	console.log(data.blogs);
+	let filteredBlogs = data.blogs;
+	function handleSearch(event: Event & { currentTarget: EventTarget & HTMLInputElement }) {
+		filteredBlogs = data.blogs.filter((e) =>
+			e.title.toLowerCase().includes(event?.currentTarget?.value.toLowerCase())
+		);
+	}
 </script>
 
-<div>
-	<p>
-		{#each data.blogs as blog}
-			<Blog title={blog.title} body={blog.body} authorId={blog.authorId} />
+<Header />
+<div style="display: flex; justify-content: center; flex-direction: column; align-items: center">
+	<label for="search">Search:</label><br />
+	<input on:input={handleSearch} placeholder="Search Blogs..." id="search" name="search" />
+	<div class="blogContainer">
+		{#each filteredBlogs as blog}
+			<Blog
+				title={blog.title}
+				stars={0}
+				body={blog.body}
+				author={{
+					id: 0,
+					name: 'author'
+				}}
+			/>
 		{/each}
-	</p>
+	</div>
 	<form action="?/createBlog" method="POST">
 		<label for="title">Title:</label><br />
 		<input type="text" id="title" name="title" /><br /><br />
@@ -22,3 +39,14 @@
 		<input type="submit" value="Submit" />
 	</form>
 </div>
+
+<style>
+	.blogContainer {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		place-items: center;
+		grid-auto-rows: minmax(150px, auto);
+		gap: 30px;
+		width: 75%;
+	}
+</style>

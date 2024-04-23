@@ -1,17 +1,19 @@
 @font-face {
-	font-family: 'Audrey Normal';
+	font-family: 'CooperHewitt-Medium';
 	font-style: normal;
 	font-weight: normal;
-	src: url('../static/fonts/Audrey-Normal.otf'), format('otf');
+	src: url('/fonts/CooperHewitt-Medium.otf'), format('otf');
 }
 
 @font-face {
-	font-family: 'Audrey Bold';
+	font-family: 'CooperHewitt-Bold';
 	font-style: bold;
 	font-weight: normal;
-	src: url('../static/fonts/Audrey-Bold.otf'), format('otf');
+	src: url('/fonts/CooperHewitt-Bold.otf'), format('otf');
 }
 
 body {
-	font-family: 'Audrey Normal', sans-serif;
+	padding: 0;
+	margin: 0;
+	font-family: 'CooperHewitt-Medium', sans-serif;
 }

@@ -13,7 +13,7 @@
 		"format": "prettier --write .",
 		"db-generate": "drizzle-kit generate:pg",
 		"studio": "drizzle-kit studio",
-		"db-migrate": "tsx src/lib/index.ts"
+		"db-migrate": "tsx src/lib/db/index.ts"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-auto": "^3.0.0",
@@ -39,6 +39,7 @@
 	"dependencies": {
 		"dotenv": "^16.4.5",
 		"drizzle-orm": "^0.30.8",
+		"lucide-svelte": "^0.372.0",
 		"pg": "^8.11.5",
 		"postgres": "^3.4.4",
 		"tsx": "^4.7.2"
