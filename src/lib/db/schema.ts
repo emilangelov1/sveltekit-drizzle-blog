@@ -13,11 +13,10 @@ export const BlogTable = pgTable('blog', {
 });
 
 export const StarredBlogsTable = pgTable('starred_blogs', {
+	id: serial('id').primaryKey(),
 	blogId: integer('blogId')
 		.notNull()
 		.references(() => BlogTable.id),
-	userId: integer('userId')
-		.notNull()
-		.references(() => UserTable.id),
+	userId: integer('userId').references(() => UserTable.id),
 	starred: boolean('starred').notNull()
 });

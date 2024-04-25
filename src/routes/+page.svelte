@@ -1,9 +1,10 @@
 <script lang="ts">
 	import Blog from '$lib/components/BlogPreview/blogPreview.svelte';
-	import Header from '$lib/components/Header/header.svelte';
+	import Layout from '$lib/components/Layout/layout.svelte';
 	import '../global.css';
 
 	export let data;
+	console.log(data.blogs);
 	let filteredBlogs = data.blogs;
 	function handleSearch(event: Event & { currentTarget: EventTarget & HTMLInputElement }) {
 		filteredBlogs = data.blogs.filter((e) =>
@@ -12,19 +13,20 @@
 	}
 </script>
 
-<Header />
-<div style="display: flex; justify-content: center; flex-direction: column; align-items: center">
+<Layout>
 	<label for="search">Search:</label><br />
 	<input on:input={handleSearch} placeholder="Search Blogs..." id="search" name="search" />
 	<div class="blogContainer">
 		{#each filteredBlogs as blog}
 			<Blog
-				title={blog.title}
-				stars={0}
-				body={blog.body}
-				author={{
-					id: 0,
-					name: 'author'
+				blog={{
+					id: blog.id,
+					title: blog.title,
+					body: blog.body,
+					author: {
+						id: 0,
+						name: 'author'
+					}
 				}}
 			/>
 		{/each}
@@ -38,7 +40,7 @@
 
 		<input type="submit" value="Submit" />
 	</form>
-</div>
+</Layout>
 
 <style>
 	.blogContainer {
@@ -46,7 +48,10 @@
 		grid-template-columns: repeat(3, 1fr);
 		place-items: center;
 		grid-auto-rows: minmax(150px, auto);
-		gap: 30px;
-		width: 75%;
+		gap: 10px;
+		width: 70%;
+		@media screen and (max-width: 1200px) {
+			grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		}
 	}
 </style>

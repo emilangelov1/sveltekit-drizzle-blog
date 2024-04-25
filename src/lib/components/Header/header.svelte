@@ -3,7 +3,7 @@
 	$: headerStyles =
 		innerHeight == 0
 			? 'box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0)'
-			: 'box-shadow: 0px 00px 100px -30px rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px);  background-color: rgba(255, 255, 255, 0.75);';
+			: 'box-shadow: 0px 00px 100px -30px rgba(0, 0, 0, 0.2); backdrop-filter: blur(5px);  background-color: rgba(255, 255, 255, 0.75);';
 </script>
 
 <svelte:window bind:scrollY={innerHeight} />
@@ -16,6 +16,7 @@
 
 <style>
 	.header {
+		z-index: 100;
 		position: fixed;
 		height: 75px;
 		width: 100%;

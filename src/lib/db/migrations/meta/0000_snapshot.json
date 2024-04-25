@@ -1,5 +1,5 @@
 {
-  "id": "71e30a04-1d11-46d0-ad6f-debd6315d77c",
+  "id": "e0a23e5c-697e-4325-bcac-bc365c17b8d8",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -41,6 +41,67 @@
           "tableTo": "user",
           "columnsFrom": [
             "authorId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "starred_blogs": {
+      "name": "starred_blogs",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "blogId": {
+          "name": "blogId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "userId": {
+          "name": "userId",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "starred": {
+          "name": "starred",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "starred_blogs_blogId_blog_id_fk": {
+          "name": "starred_blogs_blogId_blog_id_fk",
+          "tableFrom": "starred_blogs",
+          "tableTo": "blog",
+          "columnsFrom": [
+            "blogId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "starred_blogs_userId_user_id_fk": {
+          "name": "starred_blogs_userId_user_id_fk",
+          "tableFrom": "starred_blogs",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
           ],
           "columnsTo": [
             "id"

@@ -11,16 +11,18 @@
 
 <style>
 	.container {
+		padding: 25px 50px;
 		background-color: white;
 		width: 50%;
 		height: 50%;
-		border-radius: 5px;
-		box-shadow: 0px 0px 30px -12px rgba(0, 0, 0, 0.2);
+		border-radius: 10px;
+		box-shadow: 0px 0px 100px 80px rgba(0, 0, 0, 0.02);
 	}
 	.title {
-		font-size: 22px;
+		font-size: 30px;
+		font-family: 'CooperHewitt-Bold';
 	}
 	.body {
-		font-size: 16px;
+		font-size: 18px;
 	}
 </style>

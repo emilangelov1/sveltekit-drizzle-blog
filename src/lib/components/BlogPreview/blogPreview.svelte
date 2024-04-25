@@ -1,57 +1,69 @@
 <script lang="ts">
-	import Star from 'lucide-svelte/icons/star';
+	import viewport from '$lib/hooks/useViewportAction';
 	import { theme } from '$lib/stores/themes';
-	export let title = '';
-	export let stars = 0;
+	export let blog = {
+		id: 0,
+		title: '',
+		author: {
+			name: '',
+			id: 0
+		},
+		body: ''
+	};
 	export let author = {
 		name: '',
 		id: 0
 	};
-	export let starred = false;
-	let hovered = false;
-	export let body = '';
-	export let height = 'fit-content';
 	const randomNumberBetween = (min: number, max: number) => {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	};
+	let visible = false;
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-	on:mouseenter={() => (hovered = true)}
-	on:mouseleave={() => (hovered = false)}
+	use:viewport
+	on:exitViewport={() => {
+		visible = false;
+	}}
+	on:enterViewport={() => {
+		visible = true;
+	}}
 	class="container"
-	style="height: {height}"
+	style="opacity: {visible ? 1 : 0}"
 >
 	<div class="topContainer">
-		<p class="title">{title}</p>
-		{#if hovered}
-			<button on:click={() => (starred = !starred)} class="starContainer">
-				<Star color={starred ? 'red' : 'black'} />
-				<p>{stars}</p>
-			</button>
-		{/if}
+		<p class="title">{blog.title}</p>
 	</div>
-	<p class="body">{body.slice(0, randomNumberBetween(50, 500))}...</p>
+	<p class="body">{blog.body.slice(0, randomNumberBetween(100, 500))}...</p>
 	<div class="bottomContainer">
 		<p class="author">{author.name}</p>
-		<button style="color: {theme.accent}" class="readMore">Read More</button>
+		<a href="/blog/{blog.id}" style="color: {theme.accent}" class="readMore">Read More</a>
 	</div>
 </div>
 
 <style>
 	.container {
 		display: flex;
+		height: fit-content;
 		flex-direction: column;
 		justify-content: space-between;
-		padding: 15px 35px;
+		padding: 25px 35px;
 		background-color: white;
-		width: 300px;
-		border-radius: 30px;
-		box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.06);
-		transition: all 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5);
+		width: 250px;
+		border-radius: 10px;
+		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+		transition:
+			opacity 1s,
+			box-shadow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5),
+			background-color 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5);
 		&:hover {
-			box-shadow: 0px 0px 50px 30px rgba(0, 0, 0, 0.03);
+			box-shadow: 0px 0px 55px 30px rgba(0, 0, 0, 0.03);
+		}
+		@media screen and (max-width: 1500px) {
+			width: fit-content;
+		}
+		@media screen and (max-width: 1000px) {
+			width: 125px;
 		}
 	}
 	.container * {
@@ -81,15 +93,6 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: space-between;
-	}
-	.starContainer {
-		all: unset;
-		cursor: pointer;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		gap: 10px;
-		height: 100%;
 	}
 	.body {
 		padding: 25px 0px;
