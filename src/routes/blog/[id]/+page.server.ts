@@ -5,7 +5,6 @@ import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
-	console.log(params.id);
 	const blogs = await db
 		.select()
 		.from(BlogTable)

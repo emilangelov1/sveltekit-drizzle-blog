@@ -3,7 +3,6 @@
 	import Layout from '$lib/components/Layout/layout.svelte';
 
 	export let data;
-	console.log(data);
 </script>
 
 <Layout>

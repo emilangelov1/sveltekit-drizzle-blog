@@ -3,12 +3,18 @@
 	import { theme } from '$lib/stores/themes';
 	export let blog = {
 		id: 0,
-		title: '',
+		title: {
+			content: '',
+			style: ''
+		},
 		author: {
 			name: '',
 			id: 0
 		},
-		body: ''
+		body: {
+			content: '',
+			style: ''
+		}
 	};
 	export let author = {
 		name: '',
@@ -32,9 +38,11 @@
 	style="opacity: {visible ? 1 : 0}"
 >
 	<div class="topContainer">
-		<p class="title">{blog.title}</p>
+		<p class="title" style={blog.title.style}>{blog.title.content}</p>
 	</div>
-	<p class="body">{blog.body.slice(0, randomNumberBetween(100, 500))}...</p>
+	<p class="body" style={blog.body.style}>
+		{blog.body.content?.slice(0, randomNumberBetween(100, 500))}...
+	</p>
 	<div class="bottomContainer">
 		<p class="author">{author.name}</p>
 		<a href="/blog/{blog.id}" style="color: {theme.accent}" class="readMore">Read More</a>
@@ -47,6 +55,8 @@
 		height: fit-content;
 		flex-direction: column;
 		justify-content: space-between;
+		word-wrap: wrap;
+		text-wrap: wrap;
 		padding: 25px 35px;
 		background-color: white;
 		width: 250px;
@@ -96,5 +106,8 @@
 	}
 	.body {
 		padding: 25px 0px;
+		width: 100%;
+		word-wrap: wrap;
+		text-wrap: wrap;
 	}
 </style>

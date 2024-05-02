@@ -1,41 +1,20 @@
 import { db } from '$lib/db/db';
-import { BlogTable, StarredBlogsTable } from '$lib/db/schema';
-import { count, inArray } from 'drizzle-orm';
+import { BlogTable } from '$lib/db/schema';
+import { like } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ route }) => {
-	console.log({ route });
+export const load: PageServerLoad = async ({ url }) => {
 	const blogs = await db.select().from(BlogTable);
-	if (blogs.length) {
-		const starsCount = await db
-			.select({ value: count() })
-			.from(StarredBlogsTable)
-			.where(
-				inArray(
-					StarredBlogsTable.blogId,
-					blogs.map((e) => e.id)
-				)
-			);
-		return { blogs, starsCount };
+	console.log(url.searchParams.get('search'));
+	if (url.searchParams.get('search')) {
+		const filteredBlogs = await db
+			.select()
+			.from(BlogTable)
+			.where(like(BlogTable.title, `%${url.searchParams.get('search')}%`));
+		return { blogs, filteredBlogs };
 	}
-	return { blogs };
-};
-
-export const actions = {
-	createBlog: async (event) => {
-		const formData = await event.request.formData();
-		const title = formData.get('title') as string;
-		const body = formData.get('body') as string;
-		const authorId = null;
-		await db.insert(BlogTable).values({ title, body, authorId });
-		return { success: true };
-	},
-	starBlog: async (event) => {
-		const formData = await event.request.formData();
-		const userId = 1;
-		const blogId = formData.get('starButton') as unknown as number;
-		console.log(Object.keys(formData), blogId);
-		await db.insert(StarredBlogsTable).values({ starred: true, blogId, userId });
-		return { success: true };
+	if (url.searchParams.get('search') === '' || !url.searchParams.get('search')) {
+		return { blogs, filteredBlogs: [] };
 	}
+	return { blogs, filteredBlogs: [] };
 };

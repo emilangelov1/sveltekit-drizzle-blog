@@ -1,6 +1,6 @@
 {
-  "id": "309e684a-6c30-4b22-8052-48806f757b5f",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "93547137-563b-4a8e-abfc-579af73014c1",
+  "prevId": "309e684a-6c30-4b22-8052-48806f757b5f",
   "version": "5",
   "dialect": "pg",
   "tables": {
@@ -125,6 +125,24 @@
         },
         "name": {
           "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sessionId": {
+          "name": "sessionId",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true

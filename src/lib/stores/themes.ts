@@ -1,7 +1,7 @@
 // import { derived, writable } from 'svelte/store';
 
 export const theme = {
-	primary: '#f3f3f3',
+	primary: 'white',
 	accent: '#b62f2f'
 };
 

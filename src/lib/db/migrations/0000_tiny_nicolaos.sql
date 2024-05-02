@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS "blog" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"title" varchar NOT NULL,
-	"body" varchar NOT NULL,
+	"title" json NOT NULL,
+	"body" json NOT NULL,
 	"authorId" integer
 );
 --> statement-breakpoint
