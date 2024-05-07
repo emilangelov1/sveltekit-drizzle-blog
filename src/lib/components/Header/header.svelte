@@ -37,9 +37,7 @@
 	.headerText {
 		all: unset;
 		cursor: pointer;
-		font-family: 'CooperHewitt-Medium';
-		font-style: normal;
-		font-weight: 600;
+		font-family: CooperHewitt-Medium;
 		font-size: 34px;
 		line-height: 72px;
 		color: black;
@@ -53,7 +51,7 @@
 	.createBlog {
 		font-size: 16px;
 		all: unset;
-		font-family: 'CooperHewitt-Bold';
+		font-family: CooperHewitt-Bold;
 		cursor: pointer;
 	}
 	.back {

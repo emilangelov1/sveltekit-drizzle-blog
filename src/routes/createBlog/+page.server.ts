@@ -1,5 +1,6 @@
 import { db } from '$lib/db/db.js';
-import { BlogTable, StarredBlogsTable } from '$lib/db/schema.js';
+import { BlogTable, UserTable } from '$lib/db/schema.js';
+import { eq } from 'drizzle-orm';
 
 export const actions = {
 	createBlog: async (event) => {
@@ -10,15 +11,19 @@ export const actions = {
 		console.log(styleMap);
 		const title = { content: titleContent, style: JSON.parse(styleMap).titleStyle };
 		const body = { content: bodyContent, style: JSON.parse(styleMap).bodyStyle };
-		const authorId = null;
-		const res = await db.insert(BlogTable).values({ title, body, authorId }).returning();
-		return { success: true, id: res.at(0)?.id };
-	},
-	starBlog: async (event) => {
-		const formData = await event.request.formData();
-		const userId = 1;
-		const blogId = formData.get('starButton') as unknown as number;
-		await db.insert(StarredBlogsTable).values({ starred: true, blogId, userId });
-		return { success: true };
+		const cookie = event.cookies.get('role');
+		if (cookie) {
+			const authorId =
+				(
+					await db
+						.select({
+							id: UserTable.id
+						})
+						.from(UserTable)
+						.where(eq(UserTable.sessionId, cookie))
+				).at(0)?.id || 0;
+			const res = await db.insert(BlogTable).values({ title, body, authorId }).returning();
+			return { success: true, id: res.at(0)?.id };
+		}
 	}
 };

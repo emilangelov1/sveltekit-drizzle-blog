@@ -91,7 +91,6 @@
 		all: unset;
 		font-family: CooperHewitt-Bold;
 		cursor: pointer;
-		font-weight: bold;
 	}
 	.topContainer {
 		display: flex;

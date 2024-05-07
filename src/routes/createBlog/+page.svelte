@@ -48,7 +48,6 @@
 		<div class="blogContainer">
 			<Blog
 				create
-				authorId={0}
 				body={body.content
 					? { content: body.content, style: JSON.parse(styleMapValue).bodyStyle }
 					: placeHolder('body')}
@@ -115,7 +114,7 @@
 				<textarea
 					style="height: 250px"
 					wrap="hard"
-					class="input"
+					class="inputText"
 					id="body"
 					name="body"
 					rows={10}
@@ -214,6 +213,22 @@
 		}
 	}
 	.input {
+		all: unset;
+		padding-left: 15px;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		text-wrap: wrap;
+		height: 35px;
+		border: 1.5px solid #b62f2f;
+		border-radius: 3px;
+		transition: box-shadow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5);
+		&:focus {
+			border: 2px solid #b62f2f;
+			box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.05);
+		}
+	}
+	.inputText {
 		all: unset;
 		display: flex;
 		align-items: center;

@@ -5,7 +5,7 @@ export const UserTable = pgTable('user', {
 	userName: varchar('name').notNull(),
 	email: varchar('email').notNull(),
 	password: varchar('password').notNull(),
-	sessionId: varchar('sessionId'),
+	sessionId: varchar('sessionId').notNull(),
 	salt: varchar('salt').notNull()
 });
 
@@ -13,7 +13,9 @@ export const BlogTable = pgTable('blog', {
 	id: serial('id').primaryKey(),
 	title: json('title').notNull(),
 	body: json('body').notNull(),
-	authorId: integer('authorId').references(() => UserTable.id)
+	authorId: integer('authorId')
+		.references(() => UserTable.id)
+		.notNull()
 });
 
 export const StarredBlogsTable = pgTable('starred_blogs', {
@@ -21,6 +23,8 @@ export const StarredBlogsTable = pgTable('starred_blogs', {
 	blogId: integer('blogId')
 		.notNull()
 		.references(() => BlogTable.id),
-	userId: integer('userId').references(() => UserTable.id),
+	userId: integer('userId')
+		.references(() => UserTable.id)
+		.notNull(),
 	starred: boolean('starred').notNull()
 });

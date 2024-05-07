@@ -1,7 +1,8 @@
 import { db } from '$lib/db/db.js';
 import { UserTable } from '$lib/db/schema.js';
+import { setCookie } from '$lib/functions/cookies.js';
 import { generateSalt, hashPassword } from '$lib/functions/password.js';
-import { redirect } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
 export const actions = {
 	register: async (event) => {
@@ -11,12 +12,22 @@ export const actions = {
 		const password = formData.get('password') as string;
 		const salt = generateSalt(8);
 		const hashedPassword = await hashPassword(password, salt).then((e) => e);
-		await db
+		const userEmail = await db.select().from(UserTable).where(eq(UserTable.email, email));
+		const sessionId = generateSalt(20);
+		if (userEmail.length > 0) {
+			return {
+				success: false,
+				message: 'User with this email already exists'
+			};
+		}
+		const response = await db
 			.insert(UserTable)
-			.values({ userName: username, email, password: hashedPassword, salt })
+			.values({ userName: username, email, password: hashedPassword, salt, sessionId })
 			.returning();
-		redirect(302, '/');
+		if (response?.at(0)) await setCookie(event, sessionId);
+		return {
+			success: true,
+			message: 'Successfully registered'
+		};
 	}
 };
-
-export const load = () => {};

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Header from '../Header/header.svelte';
 	import { onNavigate } from '$app/navigation';
+	import Notifications from '../Notification/notifications.svelte';
 
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
@@ -12,11 +13,16 @@
 			});
 		});
 	});
+
+	export let showHeader: boolean = true;
 </script>
 
-<Header />
+{#if showHeader}
+	<Header />
+{/if}
+<Notifications />
 <div
-	style="display: flex; justify-content: center; flex-direction: column; align-items: center; padding: 150px 0px 150px 0px"
+	style="display: flex; overflow: hidden; height: 100vh; justify-content: center; flex-direction: column; align-items: center; padding: 0px 0px 0px 0px"
 >
 	<slot />
 </div>

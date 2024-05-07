@@ -1,5 +1,5 @@
 import { db } from '$lib/db/db';
-import { BlogTable } from '$lib/db/schema';
+import { BlogTable, StarredBlogsTable } from '$lib/db/schema';
 import { like } from 'drizzle-orm';
 import type { PageServerLoad } from './$types';
 

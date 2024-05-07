@@ -1,12 +1,20 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { Eye, EyeOff } from 'lucide-svelte';
 
 	export let register: boolean;
+	let showPassword: boolean = false;
 </script>
 
 <div class="cardContainer">
 	<p class="title">{register ? 'Register' : 'Login'}</p>
-	<form method="POST" use:enhance action={register ? '?/register' : '?/login'} style="width: 100%;">
+	<form
+		method="POST"
+		class="form"
+		use:enhance
+		action={register ? '?/register' : '?/login'}
+		style="width: 100%;"
+	>
 		<div class="inputContainer">
 			<label class="label" for="email">Email</label>
 			<input required class="input" type="email" id="email" name="email" />
@@ -19,17 +27,31 @@
 		{/if}
 		<div class="inputContainer">
 			<label class="label" for="password">Password</label>
-			<input required class="input" type="password" id="password" name="password" />
+			<input
+				required
+				class="input"
+				type={showPassword ? 'text' : 'password'}
+				id="password"
+				name="password"
+			/>
+			<button type="button" on:click={() => (showPassword = !showPassword)} class="showPassword">
+				{#if showPassword}
+					<Eye size={19} />
+				{/if}
+				{#if !showPassword}
+					<EyeOff size={19} />
+				{/if}
+			</button>
 		</div>
 		{#if register}
 			<div class="footer">
-				<button type="button" class="register">Login</button>
+				<p class="register">Already registered? <a href="/login">Login</a></p>
 				<button type="submit" class="login">Register</button>
 			</div>
 		{/if}
 		{#if !register}
 			<div class="footer">
-				<button class="register">Register</button>
+				<p class="register">Don't have an account? <a href="/register">Register</a></p>
 				<button class="login">Login</button>
 			</div>
 		{/if}
@@ -39,24 +61,31 @@
 <style>
 	.title {
 		font-size: 26px;
-		font-family: 'CooperHewitt-Bold';
-		font-weight: bold;
-		font-style: normal;
+		font-family: CooperHewitt-Bold;
+		height: 100%;
+		width: 100%;
+		padding: 0;
+		margin: 0;
+	}
+	.form {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		flex-direction: column;
+		gap: 15px;
 	}
 	.label {
 		font-size: 14px;
-		font-family: 'CooperHewitt-Medium';
-		font-style: normal;
-		font-weight: normal;
+		font-family: CooperHewitt-Medium;
 	}
 	.cardContainer {
+		view-transition-name: login;
 		background-color: white;
 		width: 40%;
 		padding: 50px;
 		height: fit-content;
 		border-radius: 10px;
-		box-shadow: 0px 0px 150px 80px rgba(0, 0, 0, 0.04);
-		/* padding: 100px; */
+		box-shadow: 0px 0px 150px 90px rgba(0, 0, 0, 0.05);
 		display: flex;
 		justify-content: flex-start;
 		align-items: flex-start;
@@ -68,6 +97,7 @@
 	}
 	.input {
 		all: unset;
+		padding-left: 15px;
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -83,10 +113,11 @@
 	}
 	.footer {
 		display: flex;
-		align-items: flex-end;
+		align-items: center;
 		justify-content: flex-end;
 		width: 100%;
 		gap: 25px;
+		padding-top: 20px;
 	}
 	.login {
 		all: unset;
@@ -98,26 +129,33 @@
 		justify-content: center;
 		align-items: center;
 		cursor: pointer;
-		font-family: 'CooperHewitt-Medium';
-		font-style: normal;
-		font-weight: normal;
+		font-family: CooperHewitt-Medium;
 		color: white;
 		font-size: 12px;
+		transition: 0.5s all cubic-bezier(0.2, 0.9, 0.3, 1);
+		&:hover {
+			background-color: #972f2f;
+		}
 	}
 	.register {
-		all: unset;
-		border: 1px solid #b62f2f;
-		border-radius: 2px;
-		width: 65px;
-		height: 35px;
+		& a {
+			all: unset;
+			cursor: pointer;
+			color: #b62f2f;
+			font-family: CooperHewitt-Bold;
+		}
+	}
+	.showPassword {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		align-self: center;
+		padding: 0;
+		margin: 0;
+		all: unset;
 		cursor: pointer;
-		font-style: normal;
-		font-weight: normal;
-		font-family: 'CooperHewitt-Medium';
-		color: #b62f2f;
-		font-size: 12px;
+		position: relative;
+		top: -29px;
+		left: 95%;
 	}
 </style>
