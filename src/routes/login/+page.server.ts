@@ -10,7 +10,6 @@ export const actions = {
 		const email = data.get('email') as string;
 		const password = data.get('password') as string;
 		const user = await db.select().from(UserTable).where(eq(UserTable.email, email));
-		console.log({ email, password, user });
 		if (user.length === 0) {
 			return {
 				message: 'User not found',

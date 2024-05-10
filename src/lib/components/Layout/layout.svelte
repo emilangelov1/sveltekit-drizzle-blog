@@ -15,19 +15,27 @@
 	});
 
 	export let showHeader: boolean = true;
+	export let isLoggedIn: boolean = false;
+	export let center: boolean = false;
 </script>
 
 {#if showHeader}
-	<Header />
+	<Header {isLoggedIn} />
 {/if}
 <Notifications />
-<div
-	style="display: flex; overflow: hidden; height: 100vh; justify-content: center; flex-direction: column; align-items: center; padding: 0px 0px 0px 0px"
->
+<div class="container" style={center ? 'justify-content: center;' : 'padding-top: 150px;'}>
 	<slot />
 </div>
 
 <style>
+	.container {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		margin: 0;
+		padding: 0;
+		min-height: 100vh;
+	}
 	@keyframes fade-in {
 		from {
 			opacity: 0;

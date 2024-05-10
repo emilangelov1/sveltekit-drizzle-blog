@@ -58,33 +58,31 @@
 		word-wrap: wrap;
 		text-wrap: wrap;
 		padding: 25px 35px;
-		background-color: white;
+		background-color: #f9f9f9;
 		width: 250px;
 		border-radius: 10px;
-		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.04);
+		box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.06);
 		transition:
 			opacity 1s,
 			box-shadow 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5),
 			background-color 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.5);
 		&:hover {
-			box-shadow: 0px 0px 55px 30px rgba(0, 0, 0, 0.03);
+			box-shadow: 0px 0px 55px 35px rgba(0, 0, 0, 0.04);
 		}
-		@media screen and (max-width: 1500px) {
+		/* @media screen and (max-width: 1500px) {
 			width: fit-content;
 		}
 		@media screen and (max-width: 1000px) {
 			width: 125px;
-		}
+		} */
 	}
 	.container * {
 		padding: 0;
 		margin: 0;
 	}
 	.title {
+		width: 100%;
 		font-size: 26px;
-		font-family: CooperHewitt-Bold;
-	}
-	.author {
 		font-family: CooperHewitt-Bold;
 	}
 	.readMore {
@@ -106,7 +104,8 @@
 	.body {
 		padding: 25px 0px;
 		width: 100%;
-		word-wrap: wrap;
+		overflow: hidden;
+		white-space: normal;
 		text-wrap: wrap;
 	}
 </style>

@@ -3,15 +3,21 @@ import { BlogTable, UserTable } from '$lib/db/schema.js';
 import { eq } from 'drizzle-orm';
 
 export const actions = {
-	createBlog: async (event) => {
-		const formData = await event.request.formData();
+	createBlog: async ({ request, cookies }) => {
+		const formData = await request.formData();
 		const titleContent = formData.get('title') as string;
 		const bodyContent = formData.get('body') as string;
 		const styleMap = formData.get('styleMap') as string;
 		console.log(styleMap);
-		const title = { content: titleContent, style: JSON.parse(styleMap).titleStyle };
-		const body = { content: bodyContent, style: JSON.parse(styleMap).bodyStyle };
-		const cookie = event.cookies.get('role');
+		const title = {
+			content: titleContent.length ? titleContent : 'Title',
+			style: JSON.parse(styleMap).titleStyle
+		};
+		const body = {
+			content: bodyContent.length ? bodyContent : 'Body',
+			style: JSON.parse(styleMap).bodyStyle
+		};
+		const cookie = cookies.get('role');
 		if (cookie) {
 			const authorId =
 				(

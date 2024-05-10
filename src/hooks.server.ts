@@ -14,6 +14,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 			throw redirect(302, '/login');
 		}
 	}
+	if (event.url.pathname.startsWith('/editBlog')) {
+		if (event.cookies.get('role') === 'guest') {
+			throw redirect(302, '/login');
+		}
+	}
 
 	const response = await resolve(event);
 	return response;

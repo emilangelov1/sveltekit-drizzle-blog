@@ -5,11 +5,11 @@
 	export let data;
 	let actualTitle = data?.blog?.title as BlogType;
 	let actualBody = data?.blog?.body as BlogType;
-	console.log({ data });
 </script>
 
-<Layout>
+<Layout isLoggedIn={data.canLike} center>
 	<Blog
+		author={data?.author}
 		canLike={data.canLike}
 		isStarred={data.isStarred}
 		body={actualBody}

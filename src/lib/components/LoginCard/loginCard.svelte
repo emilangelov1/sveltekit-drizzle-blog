@@ -45,13 +45,15 @@
 		</div>
 		{#if register}
 			<div class="footer">
-				<p class="register">Already registered? <a href="/login">Login</a></p>
+				<p class="register">Already registered? <a class="redirect" href="/login">Login</a></p>
 				<button type="submit" class="login">Register</button>
 			</div>
 		{/if}
 		{#if !register}
 			<div class="footer">
-				<p class="register">Don't have an account? <a href="/register">Register</a></p>
+				<p class="register">
+					Don't have an account? <a class="redirect" href="/register">Register</a>
+				</p>
 				<button class="login">Login</button>
 			</div>
 		{/if}
@@ -80,7 +82,7 @@
 	}
 	.cardContainer {
 		view-transition-name: login;
-		background-color: white;
+		background-color: #f9f9f9;
 		width: 40%;
 		padding: 50px;
 		height: fit-content;
@@ -130,7 +132,7 @@
 		align-items: center;
 		cursor: pointer;
 		font-family: CooperHewitt-Medium;
-		color: white;
+		color: #f9f9f9;
 		font-size: 12px;
 		transition: 0.5s all cubic-bezier(0.2, 0.9, 0.3, 1);
 		&:hover {
@@ -144,6 +146,9 @@
 			color: #b62f2f;
 			font-family: CooperHewitt-Bold;
 		}
+	}
+	.redirect {
+		font-family: CooperHewitt-Bold;
 	}
 	.showPassword {
 		display: flex;

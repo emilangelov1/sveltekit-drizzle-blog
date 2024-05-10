@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { theme } from '$lib/stores/themes';
-	import { ArrowLeft } from 'lucide-svelte';
+	import { ArrowLeft, LucideHome } from 'lucide-svelte';
+
+	export let isLoggedIn: boolean = false;
 
 	let innerHeight = 0;
 	$: headerStyles =
@@ -16,8 +18,13 @@
 		<button on:click={() => (history ? history.back() : null)} class="back">
 			<ArrowLeft />
 		</button>
-		<a href="/" class="headerText">Header</a>
-		<a style="color: {theme.accent}" class="createBlog" href="/createBlog">Create Blog</a>
+		<a href="/" class="home"><LucideHome /></a>
+		{#if isLoggedIn}
+			<a style="color: {theme.accent}" class="createBlog" href="/createBlog">Create Blog</a>
+		{/if}
+		{#if !isLoggedIn}
+			<a style="color: {theme.accent}" class="createBlog" href="/login">Login</a>
+		{/if}
 	</div>
 </div>
 
@@ -28,14 +35,17 @@
 		position: fixed;
 		height: 75px;
 		width: 100%;
-		background-color: white;
+		background-color: #f9f9f9;
 		transition: 0.5s all cubic-bezier(0.2, 0.9, 0.3, 1);
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		margin-bottom: 150px;
 	}
-	.headerText {
+	.home {
 		all: unset;
+		display: flex;
+		flex: 1;
 		cursor: pointer;
 		font-family: CooperHewitt-Medium;
 		font-size: 34px;
@@ -47,15 +57,18 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		gap: 25px;
 	}
 	.createBlog {
 		font-size: 16px;
 		all: unset;
+		display: flex;
 		font-family: CooperHewitt-Bold;
 		cursor: pointer;
 	}
 	.back {
 		all: unset;
 		cursor: pointer;
+		display: flex;
 	}
 </style>
