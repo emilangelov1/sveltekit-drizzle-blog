@@ -15,6 +15,6 @@
 	$: if (form?.success === true && window.location.search.includes('redirect')) goto(redirect());
 </script>
 
-<Layout showHeader={false}>
+<Layout center showHeader={false}>
 	<LoginCard register={false} />
 </Layout>

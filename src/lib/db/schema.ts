@@ -1,4 +1,4 @@
-import { boolean, integer, pgTable, serial, varchar, json } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, varchar, json, date } from 'drizzle-orm/pg-core';
 
 export const UserTable = pgTable('user', {
 	id: serial('id').primaryKey(),
@@ -15,7 +15,8 @@ export const BlogTable = pgTable('blog', {
 	body: json('body').notNull(),
 	authorId: integer('authorId')
 		.references(() => UserTable.id)
-		.notNull()
+		.notNull(),
+	date: date('date').notNull()
 });
 
 export const StarredBlogsTable = pgTable('starred_blogs', {

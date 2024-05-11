@@ -7,8 +7,10 @@
 
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import { Star, Trash } from 'lucide-svelte';
+	import { Pencil, Star, Trash } from 'lucide-svelte';
 	import Tooltip from '../Tooltip/tooltip.svelte';
+	import Modal from '../Modal/modal.svelte';
+	import { goto } from '$app/navigation';
 
 	export let title: Blog;
 	export let body: Blog;
@@ -19,6 +21,8 @@
 	export let canLike: boolean | undefined = false;
 
 	let localIsStarred = isStarred;
+
+	let isModalOpen: boolean;
 
 	let localStars = stars;
 
@@ -34,8 +38,37 @@
 </script>
 
 {#if !create}
+	<Modal
+		modalSize="small"
+		actionSlug="?/deleteBlog"
+		title="Delete Blog"
+		body="Are you sure?"
+		isOpen={isModalOpen}
+	/>
 	<div class="container">
 		<div class="titleContainer">
+			{#if canLike}
+				<button
+					disabled={!canLike}
+					on:click={() => goto('/editBlog/199')}
+					id="starButton"
+					name="starButton"
+					type="submit"
+					class="starContainer"
+				>
+					<Pencil
+						color={(() => {
+							if (!canLike) {
+								return 'grey';
+							}
+							if (localIsStarred) {
+								return '#b62f2f';
+							}
+							return 'black';
+						})()}
+					/>
+				</button>
+			{/if}
 			<p class="title" style={title.style}>{title.content}</p>
 			<form use:enhance method="POST" action="?/starBlog">
 				{#if canLike}
@@ -90,11 +123,15 @@
 		</div>
 		<p class="body" style={body.style}>{body.content}</p>
 		<div class="footerContainer">
-			<form use:enhance method="POST" action="?/deleteBlog">
-				<button class="delete" id="deleteButton" name="deleteButton" type="submit">
-					<Trash color="#b62f2f" />
-				</button>
-			</form>
+			<button
+				class="delete"
+				id="deleteButton"
+				name="deleteButton"
+				on:click={() => (isModalOpen = true)}
+				type="button"
+			>
+				<Trash color="#b62f2f" />
+			</button>
 			<p class="author">{author}</p>
 		</div>
 	</div>

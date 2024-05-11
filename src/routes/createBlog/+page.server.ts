@@ -28,7 +28,10 @@ export const actions = {
 						.from(UserTable)
 						.where(eq(UserTable.sessionId, cookie))
 				).at(0)?.id || 0;
-			const res = await db.insert(BlogTable).values({ title, body, authorId }).returning();
+			const res = await db
+				.insert(BlogTable)
+				.values({ title, body, authorId, date: new Date().toDateString() })
+				.returning();
 			return { success: true, id: res.at(0)?.id };
 		}
 	}

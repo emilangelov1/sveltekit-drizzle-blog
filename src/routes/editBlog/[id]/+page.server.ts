@@ -42,7 +42,7 @@ export const actions = {
 				).at(0)?.id || 0;
 			const res = await db
 				.update(BlogTable)
-				.set({ title, body, authorId })
+				.set({ title, body, authorId, date: new Date().toDateString() })
 				.where(eq(BlogTable.id, blogId))
 				.returning();
 			return { success: true, id: res.at(0)?.id };

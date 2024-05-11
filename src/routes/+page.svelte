@@ -1,26 +1,17 @@
 <script lang="ts">
 	import BlogPreview from '$lib/components/BlogPreview/blogPreview.svelte';
+	import Dropdown from '$lib/components/Dropdown/dropdown.svelte';
 	import Layout from '$lib/components/Layout/layout.svelte';
-	import { ArrowRight } from 'lucide-svelte';
-	import { cubicInOut } from 'svelte/easing';
-	import { tweened } from 'svelte/motion';
 
 	type Blogs<T> = { id: number; title: T; body: T; authorId: number | null }[];
 
 	type T = { content: string; style: string };
 
 	export let data;
-	let dropDownVisible: boolean = false;
-	const rotation = tweened(0, {
-		duration: 350,
-		easing: cubicInOut
-	});
-	const height = tweened(0, {
-		duration: 350,
-		easing: cubicInOut
-	});
 	let blogs: Blogs<T> = data.blogs as Blogs<T>;
 	let filteredBlogs: Blogs<T> = data.filteredBlogs as Blogs<T>;
+	let checkbox = '';
+	const checkboxes: Array<string> = ['Newest', 'Oldest', 'Highest Rated', 'Lowest Rated'];
 </script>
 
 <Layout isLoggedIn={data.isLoggedIn}>
@@ -28,30 +19,21 @@
 		<form class="form" method="GET">
 			<div class="topContainer">
 				<input class="search" placeholder="Search Blogs..." id="search" name="search" />
-				<div class="filterContainer">
-					<button
-						class="filter"
-						type="button"
-						on:click={() => (
-							(dropDownVisible = !dropDownVisible),
-							rotation.set(dropDownVisible ? 90 : 0),
-							height.set(dropDownVisible ? 250 : 0)
-						)}
-						>Filter <ArrowRight style="transform: rotate({$rotation}deg)" />
-					</button>
-					<form
-						class="dropdown"
-						style="height: {$height}px; visibility: {dropDownVisible ? 'visible' : 'hidden'}"
-					>
-						<input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-						<label for="vehicle1"> Newest</label><br />
-						<input type="checkbox" id="vehicle2" name="vehicle2" value="Car" />
-						<label for="vehicle2"> Highest Rated</label><br />
-						<input type="checkbox" id="vehicle3" name="vehicle3" value="Boat" />
-						<label for="vehicle3"> Lowest Rated</label><br /><br />
-						<input type="submit" value="Submit" />
-					</form>
-				</div>
+				<Dropdown actionSlug="?/filterBlog">
+					{#each checkboxes as input, index}
+						<div>
+							<input
+								type="checkbox"
+								id={`checkbox - ${index}`}
+								name={input}
+								value={input}
+								checked={checkbox.length > 0 && checkbox === checkboxes[index]}
+								on:change={(event) => (checkbox = event.currentTarget.value)}
+							/>
+							<label for={input}> {input}</label><br />
+						</div>
+					{/each}
+				</Dropdown>
 			</div>
 		</form>
 		<div class="blogContainer">
@@ -95,31 +77,10 @@
 			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		}
 	}
-	.filter {
-		all: unset;
-		display: flex;
-		flex-direction: row;
-		cursor: pointer;
-		gap: 10px;
-	}
-	.filterContainer {
-		position: relative;
-		display: inline-block;
-	}
 	.form {
 		width: 65%;
 		padding: 0;
 		margin: 0;
-	}
-	.dropdown {
-		background-color: #f9f9f9;
-		box-shadow: 0px 0px 20px 10px rgba(0, 0, 0, 0.05);
-		position: absolute;
-		z-index: 1;
-		width: 200px;
-		top: 50px;
-		right: 0;
-		border-radius: 5px;
 	}
 	.search {
 		view-transition-name: searchBlogs;

@@ -16,6 +16,6 @@
 	$: if (form?.success === true) goto('/');
 </script>
 
-<Layout showHeader={false}>
+<Layout center showHeader={false}>
 	<LoginCard register />
 </Layout>

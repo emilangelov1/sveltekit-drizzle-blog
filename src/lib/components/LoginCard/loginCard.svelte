@@ -17,17 +17,25 @@
 	>
 		<div class="inputContainer">
 			<label class="label" for="email">Email</label>
-			<input required class="input" type="email" id="email" name="email" />
+			<input autocomplete="email" required class="input" type="email" id="email" name="email" />
 		</div>
 		{#if register}
 			<div class="inputContainer">
 				<label class="label" for="username">Username</label>
-				<input required class="input" type="text" id="username" name="username" />
+				<input
+					autocomplete="username"
+					required
+					class="input"
+					type="text"
+					id="username"
+					name="username"
+				/>
 			</div>
 		{/if}
 		<div class="inputContainer">
 			<label class="label" for="password">Password</label>
 			<input
+				autocomplete="current-password"
 				required
 				class="input"
 				type={showPassword ? 'text' : 'password'}
