@@ -7,13 +7,27 @@
 	let actualBody = data?.blog?.body as BlogType;
 </script>
 
-<Layout isLoggedIn={data.canLike} center>
-	<Blog
-		author={data?.author}
-		canLike={data.canLike}
-		isStarred={data.isStarred}
-		body={actualBody}
-		title={actualTitle}
-		stars={data?.starsCount}
-	/>
+<Layout isLoggedIn={data.canLike}>
+	<div class="container">
+		<Blog
+			blogId={data.blog.id}
+			hasPermissions={data.hasPermissions}
+			author={data?.author}
+			canLike={data.canLike}
+			isStarred={data.isStarred}
+			body={actualBody}
+			title={actualTitle}
+			stars={data?.starsCount}
+		/>
+	</div>
 </Layout>
+
+<style>
+	.container {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+	}
+</style>

@@ -12,57 +12,62 @@
 	let filteredBlogs: Blogs<T> = data.filteredBlogs as Blogs<T>;
 	let checkbox = '';
 	const checkboxes: Array<string> = ['Newest', 'Oldest', 'Highest Rated', 'Lowest Rated'];
+	let mobile = 0;
 </script>
 
+<svelte:window bind:innerWidth={mobile} />
+
 <Layout isLoggedIn={data.isLoggedIn}>
-	{#if blogs.length}
-		<form class="form" method="GET">
-			<div class="topContainer">
-				<input class="search" placeholder="Search Blogs..." id="search" name="search" />
-				<Dropdown actionSlug="?/filterBlog">
-					{#each checkboxes as input, index}
-						<div>
-							<input
-								type="checkbox"
-								id={`checkbox - ${index}`}
-								name={input}
-								value={input}
-								checked={checkbox.length > 0 && checkbox === checkboxes[index]}
-								on:change={(event) => (checkbox = event.currentTarget.value)}
-							/>
-							<label for={input}> {input}</label><br />
-						</div>
-					{/each}
-				</Dropdown>
+	<div style={`${mobile < 600 ? 'width: 65%;' : 'width: 100%;'}; margin: 0 auto;`}>
+		{#if blogs.length}
+			<form class="form" method="GET">
+				<div class="topContainer">
+					<input class="search" placeholder="Search Blogs..." id="search" name="search" />
+					<Dropdown actionSlug="?/filterBlog">
+						{#each checkboxes as input, index}
+							<div>
+								<input
+									type="checkbox"
+									id={`checkbox - ${index}`}
+									name={input}
+									value={input}
+									checked={checkbox.length > 0 && checkbox === checkboxes[index]}
+									on:change={(event) => (checkbox = event.currentTarget.value)}
+								/>
+								<label for={input}> {input}</label><br />
+							</div>
+						{/each}
+					</Dropdown>
+				</div>
+			</form>
+			<div class="blogContainer">
+				{#each data.filteredBlogs.length ? filteredBlogs : blogs as blog}
+					<BlogPreview
+						blog={{
+							id: blog.id,
+							title: blog.title,
+							body: blog.body,
+							author: {
+								id: 0,
+								name: 'author'
+							}
+						}}
+					/>
+				{/each}
 			</div>
-		</form>
-		<div class="blogContainer">
-			{#each data.filteredBlogs.length ? filteredBlogs : blogs as blog}
-				<BlogPreview
-					blog={{
-						id: blog.id,
-						title: blog.title,
-						body: blog.body,
-						author: {
-							id: 0,
-							name: 'author'
-						}
-					}}
-				/>
-			{/each}
-		</div>
-	{/if}
-	{#if !blogs.length}
-		<div class="noBlogs">
-			<p>No blogs found...</p>
-			<a
-				class="emptyCreate"
-				href={data.isLoggedIn ? '/createBlog' : '/login/?redirect=/createBlog'}
-			>
-				Create a new blog</a
-			>
-		</div>
-	{/if}
+		{/if}
+		{#if !blogs.length}
+			<div class="noBlogs">
+				<p>No blogs found...</p>
+				<a
+					class="emptyCreate"
+					href={data.isLoggedIn ? '/createBlog' : '/login/?redirect=/createBlog'}
+				>
+					Create a new blog</a
+				>
+			</div>
+		{/if}
+	</div>
 </Layout>
 
 <style>
@@ -72,14 +77,14 @@
 		place-items: center;
 		grid-auto-rows: minmax(150px, auto);
 		gap: 25px;
-		width: 70%;
+		padding-bottom: 100px;
 		@media screen and (max-width: 1400px) {
 			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
 		}
 	}
 	.form {
-		width: 65%;
-		padding: 0;
+		padding-top: 150px;
+		width: 100%;
 		margin: 0;
 	}
 	.search {

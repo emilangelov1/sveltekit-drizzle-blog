@@ -3,11 +3,16 @@
 </script>
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<div class="tooltip">
-	<slot></slot>
-	<div class="tooltipText">{text}</div>
-	<div class="tooltipTail" />
-</div>
+{#if text !== ''}
+	<div class="tooltip">
+		<slot />
+		<div class="tooltipText">{text}</div>
+		<div class="tooltipTail" />
+	</div>
+{/if}
+{#if text === ''}
+	<slot />
+{/if}
 
 <style>
 	.tooltip {

@@ -27,6 +27,18 @@
 	$: form && form?.success === true && browser && goto(`/blog/${form?.id}`);
 </script>
 
-<Layout>
-	<CreateEdit {body} {title} />
+<Layout isLoggedIn>
+	<div class="container">
+		<CreateEdit {body} {title} />
+	</div>
 </Layout>
+
+<style>
+	.container {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+	}
+</style>

@@ -4,23 +4,32 @@
 
 	export let register: boolean;
 	let showPassword: boolean = false;
+	let width = 0;
+	$: mobile = width < 600 ? true : false;
+
+	$: buildMobileClass = (className: string) => {
+		if (!mobile) return className;
+		return className + 'Mobile';
+	};
 </script>
 
-<div class="cardContainer">
-	<p class="title">{register ? 'Register' : 'Login'}</p>
+<svelte:window bind:innerWidth={width} />
+
+<div class={buildMobileClass('cardContainer')}>
+	<p class={buildMobileClass('title')}>{register ? 'Register' : 'Login'}</p>
 	<form
 		method="POST"
-		class="form"
+		class={buildMobileClass('form')}
 		use:enhance
 		action={register ? '?/register' : '?/login'}
 		style="width: 100%;"
 	>
-		<div class="inputContainer">
+		<div class={buildMobileClass('inputContainer')}>
 			<label class="label" for="email">Email</label>
 			<input autocomplete="email" required class="input" type="email" id="email" name="email" />
 		</div>
 		{#if register}
-			<div class="inputContainer">
+			<div class={buildMobileClass('inputContainer')}>
 				<label class="label" for="username">Username</label>
 				<input
 					autocomplete="username"
@@ -69,6 +78,23 @@
 </div>
 
 <style>
+	.cardContainerMobile {
+		width: 100%;
+		view-transition-name: login;
+		background-color: #f9f9f9;
+		padding: 50px;
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-direction: column;
+		gap: 25px;
+		overflow: hidden;
+	}
+	.titleMobile {
+		display: flex;
+		font-size: 26px;
+		font-family: CooperHewitt-Bold;
+	}
 	.title {
 		font-size: 26px;
 		font-family: CooperHewitt-Bold;
@@ -91,7 +117,7 @@
 	.cardContainer {
 		view-transition-name: login;
 		background-color: #f9f9f9;
-		width: 40%;
+		width: 60%;
 		padding: 50px;
 		height: fit-content;
 		border-radius: 10px;

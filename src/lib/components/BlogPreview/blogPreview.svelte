@@ -69,12 +69,9 @@
 		&:hover {
 			box-shadow: 0px 0px 55px 35px rgba(0, 0, 0, 0.04);
 		}
-		/* @media screen and (max-width: 1500px) {
-			width: fit-content;
+		@media screen and (max-width: 500px) {
+			width: 150px;
 		}
-		@media screen and (max-width: 1000px) {
-			width: 125px;
-		} */
 	}
 	.container * {
 		padding: 0;
@@ -84,6 +81,9 @@
 		width: 100%;
 		font-size: 26px;
 		font-family: CooperHewitt-Bold;
+		overflow: hidden;
+		white-space: normal;
+		text-wrap: wrap;
 	}
 	.readMore {
 		all: unset;

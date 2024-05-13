@@ -16,25 +16,24 @@
 
 	export let showHeader: boolean = true;
 	export let isLoggedIn: boolean = false;
-	export let center: boolean = false;
+
+	let width = 0;
 </script>
+
+<svelte:window bind:innerWidth={width} />
 
 {#if showHeader}
 	<Header {isLoggedIn} />
 {/if}
 <Notifications />
-<div class="container" style={center ? 'justify-content: center;' : 'padding-top: 150px;'}>
+<div class="container" style={width < 600 ? 'width: 100%;' : 'width: 65%;'}>
 	<slot />
 </div>
 
 <style>
 	.container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		margin: 0;
+		margin: 0 auto;
 		padding: 0;
-		min-height: 100vh;
 	}
 	@keyframes fade-in {
 		from {

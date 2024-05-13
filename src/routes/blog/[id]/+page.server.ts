@@ -11,12 +11,22 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 		.where(eq(BlogTable.id, Number(params.id)))
 		.limit(1);
 	const canLike = cookies.get('role') !== 'guest' ? true : false;
-	const author = (
-		await db
-			.select({ author: UserTable.userName })
-			.from(UserTable)
-			.where(eq(UserTable.id, blogs[0].authorId))
-	).at(0)?.author;
+	const author = await db
+		.select({ author: UserTable.userName, id: UserTable.id })
+		.from(UserTable)
+		.where(eq(UserTable.id, blogs[0].authorId));
+	const user = await db
+		.select({ id: UserTable.id })
+		.from(UserTable)
+		.where(eq(UserTable.sessionId, cookies.get('role') || ''));
+	const hasPermissions = () => {
+		if (cookies.get('role') === 'guest') {
+			return false;
+		}
+		if (cookies.get('role') !== 'guest') {
+			if (user.at(0)?.id === author.at(0)?.id) return true;
+		}
+	};
 	if (blogs.length === 0) {
 		error(404, 'Blog not found');
 	}
@@ -48,7 +58,8 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 				starsCount: starsCount?.at(0)?.count,
 				canLike,
 				isStarred: isStarred?.at(0)?.starred || false,
-				author
+				author: author.at(0)?.author,
+				hasPermissions: hasPermissions()
 			};
 		}
 		return {
@@ -56,10 +67,18 @@ export const load: PageServerLoad = async ({ cookies, params }) => {
 			starsCount: starsCount?.at(0)?.count,
 			canLike,
 			isStarred: false,
-			author
+			author: author.at(0)?.author,
+			hasPermissions: hasPermissions()
 		};
 	}
-	return { blog: blogs[0], starsCount: 0, canLike: false, isStarred: false, author };
+	return {
+		blog: blogs[0],
+		starsCount: 0,
+		canLike: false,
+		isStarred: false,
+		author: author.at(0)?.author,
+		hasPermissions: hasPermissions()
+	};
 };
 
 export const actions = {

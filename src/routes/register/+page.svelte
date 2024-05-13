@@ -16,6 +16,18 @@
 	$: if (form?.success === true) goto('/');
 </script>
 
-<Layout center showHeader={false}>
-	<LoginCard register />
+<Layout showHeader={false}>
+	<div class="container">
+		<LoginCard register />
+	</div>
 </Layout>
+
+<style>
+	.container {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		height: 100vh;
+	}
+</style>

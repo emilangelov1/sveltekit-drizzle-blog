@@ -19,6 +19,8 @@
 	export let stars: number | undefined = 0;
 	export let isStarred: boolean | undefined = false;
 	export let canLike: boolean | undefined = false;
+	export let hasPermissions: boolean | undefined = undefined;
+	export let blogId: number | undefined = undefined;
 
 	let localIsStarred = isStarred;
 
@@ -28,14 +30,17 @@
 
 	const handleClick = () => {
 		if (isStarred) {
-			localStars = localStars = 1;
+			localStars = (localStars || 0) - 1;
 			localIsStarred = !localIsStarred;
 		} else {
 			localStars = (localStars || 0) + 1;
 			localIsStarred = !localIsStarred;
 		}
 	};
+	let mobile = 0;
 </script>
+
+<svelte:window bind:innerWidth={mobile} />
 
 {#if !create}
 	<Modal
@@ -45,12 +50,12 @@
 		body="Are you sure?"
 		isOpen={isModalOpen}
 	/>
-	<div class="container">
+	<div class={mobile < 600 ? 'containerMobile' : 'container'}>
 		<div class="titleContainer">
-			{#if canLike}
+			<Tooltip text={!hasPermissions ? 'Cannot edit blog' : 'Edit blog'}>
 				<button
-					disabled={!canLike}
-					on:click={() => goto('/editBlog/199')}
+					disabled={!hasPermissions}
+					on:click={() => goto(`/editBlog/${blogId}`)}
 					id="starButton"
 					name="starButton"
 					type="submit"
@@ -58,17 +63,14 @@
 				>
 					<Pencil
 						color={(() => {
-							if (!canLike) {
+							if (!hasPermissions) {
 								return 'grey';
-							}
-							if (localIsStarred) {
-								return '#b62f2f';
 							}
 							return 'black';
 						})()}
 					/>
 				</button>
-			{/if}
+			</Tooltip>
 			<p class="title" style={title.style}>{title.content}</p>
 			<form use:enhance method="POST" action="?/starBlog">
 				{#if canLike}
@@ -124,13 +126,23 @@
 		<p class="body" style={body.style}>{body.content}</p>
 		<div class="footerContainer">
 			<button
+				disabled={!hasPermissions}
 				class="delete"
 				id="deleteButton"
 				name="deleteButton"
 				on:click={() => (isModalOpen = true)}
 				type="button"
 			>
-				<Trash color="#b62f2f" />
+				<Tooltip text={!hasPermissions ? 'Cannot delete blog' : 'Delete blog'}>
+					<Trash
+						color={(() => {
+							if (hasPermissions) {
+								return '#b62f2f';
+							}
+							return 'grey';
+						})()}
+					/>
+				</Tooltip>
 			</button>
 			<p class="author">{author}</p>
 		</div>
@@ -147,14 +159,28 @@
 	.container {
 		padding: 25px 50px;
 		background-color: #f9f9f9;
-		width: 60%;
 		height: fit-content;
+		min-height: 50%;
 		border-radius: 10px;
+		width: 100%;
 		box-shadow: 0px 0px 100px 80px rgba(0, 0, 0, 0.03);
 		view-transition-name: blog;
+		display: flex;
+		flex-direction: column;
+	}
+	.containerMobile {
+		width: 65%;
+		height: 50%;
+		margin: 0 auto;
+		padding: 0;
+		view-transition-name: blog;
+		display: flex;
+		flex-direction: column;
 	}
 	.titleContainer {
 		display: flex;
+		align-items: center;
+		gap: 25px;
 	}
 	.starContainer {
 		all: unset;
@@ -196,6 +222,8 @@
 		text-wrap: wrap;
 		width: 100%;
 		word-wrap: break-word;
+		display: flex;
+		flex: 1;
 	}
 	.author {
 		display: flex;
@@ -207,7 +235,7 @@
 	.footerContainer {
 		display: flex;
 		justify-content: space-between;
-		align-items: center;
+		align-items: flex-end;
 	}
 	.delete {
 		all: unset;

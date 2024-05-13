@@ -38,32 +38,49 @@
 	) {
 		return event.currentTarget.value;
 	}
+	let mobile = 0;
+	$: isMobile = mobile < 600 ? true : false;
+	let mobileStyle: Record<string, Array<string>> = { title: [''], body: [''] };
 </script>
 
-<div class="container">
-	<div class="blogContainer">
-		<Blog
-			create
-			body={body.content
-				? { content: body.content, style: JSON.parse(styleMapValue).bodyStyle }
-				: placeHolder('body')}
-			title={title.content
-				? { content: title.content, style: JSON.parse(styleMapValue).titleStyle }
-				: placeHolder('title')}
-		/>
-	</div>
-	<form use:enhance action="?/createBlog" method="POST" class="form">
-		<div class="labelContainer">
-			<label for="title">Title:</label>
-			<input
-				class="input"
-				type="text"
-				id="title"
-				name="title"
-				value={title.content ?? title.content}
-				on:input={(event) => (title.content = onHandleChange(event))}
+<svelte:window bind:innerWidth={mobile} />
+
+<div class="container" style={isMobile ? 'width: 60%;' : 'width: 100%;'}>
+	{#if !isMobile}
+		<div class="blogContainer">
+			<Blog
+				create
+				body={body.content
+					? { content: body.content, style: JSON.parse(styleMapValue).bodyStyle }
+					: placeHolder('body')}
+				title={title.content
+					? { content: title.content, style: JSON.parse(styleMapValue).titleStyle }
+					: placeHolder('title')}
 			/>
 		</div>
+	{/if}
+	<form use:enhance action="?/createBlog" method="POST" class="form">
+		<div class="labelContainer">
+			<div>
+				<label for="title">Title:</label>
+				<input
+					class="input"
+					type="text"
+					id="title"
+					name="title"
+					value={title.content ?? title.content}
+					on:input={(event) => (title.content = onHandleChange(event))}
+				/>
+			</div>
+		</div>
+		{#if isMobile}
+			<div class="styleBoxContainer">
+				<div
+					class="styleBox"
+					style={`display: flex; ${mobileStyle.title.join('; ')}; ${mobileStyle.title.find((e) => e.includes('background-color')) ? '' : 'background-color: black'}`}
+				/>
+			</div>
+		{/if}
 		<div class="flexContainer">
 			<Tooltip text="Align Left">
 				<button
@@ -73,6 +90,8 @@
 					name="alignLeft"
 					on:click={() => {
 						findExistingStyle('left', title.style, 'text-align');
+						findExistingStyle('flex-start', mobileStyle.title, 'justify-self');
+						mobileStyle.title = mobileStyle.title;
 						title.style = title.style;
 					}}><AlignLeft /></button
 				>
@@ -85,6 +104,8 @@
 					name="alignCenter"
 					on:click={() => {
 						findExistingStyle('center', title.style, 'text-align');
+						findExistingStyle('center', mobileStyle.title, 'justify-self');
+						mobileStyle.title = mobileStyle.title;
 						title.style = title.style;
 					}}><AlignCenter /></button
 				>
@@ -97,6 +118,8 @@
 					name="alignRight"
 					on:click={() => {
 						findExistingStyle('right', title.style, 'text-align');
+						findExistingStyle('flex-end', mobileStyle.title, 'justify-self');
+						mobileStyle.title = mobileStyle.title;
 						title.style = title.style;
 					}}><AlignRight /></button
 				>
@@ -109,22 +132,34 @@
 					id="color"
 					on:input={(event) => {
 						findExistingStyle(event.currentTarget?.value, title.style, 'color');
+						findExistingStyle(event.currentTarget?.value, mobileStyle.title, 'background-color');
+						mobileStyle.title = mobileStyle.title;
 						title.style = title.style;
 					}}
 				/>
 			</Tooltip>
 		</div>
 		<div class="labelContainer">
-			<label for="body">Body:</label>
-			<textarea
-				style="height: 250px"
-				wrap="hard"
-				class="inputText"
-				id="body"
-				name="body"
-				value={body.content ?? body.content}
-				on:input={(event) => (body.content = onHandleChange(event))}
-			/>
+			<div>
+				<label for="body">Body:</label>
+				<textarea
+					style={isMobile ? 'height: 200px;' : 'height: 250px'}
+					wrap="hard"
+					class="inputText"
+					id="body"
+					name="body"
+					value={body.content ?? body.content}
+					on:input={(event) => (body.content = onHandleChange(event))}
+				/>
+			</div>
+			{#if isMobile}
+				<div class="styleBoxContainer">
+					<div
+						class="styleBox"
+						style={`display: flex; ${mobileStyle.body.join('; ')}; ${mobileStyle.body.find((e) => e.includes('background-color')) ? '' : 'background-color: black'}`}
+					/>
+				</div>
+			{/if}
 			<div class="flexContainer">
 				<Tooltip text="Align Left">
 					<button
@@ -134,6 +169,8 @@
 						name="alignLeft"
 						on:click={() => {
 							findExistingStyle('left', body.style, 'text-align');
+							findExistingStyle('flex-start', mobileStyle.body, 'justify-self');
+							mobileStyle.body = mobileStyle.body;
 							body.style = body.style;
 						}}><AlignLeft /></button
 					>
@@ -146,6 +183,8 @@
 						name="alignCenter"
 						on:click={() => {
 							findExistingStyle('center', body.style, 'text-align');
+							findExistingStyle('center', mobileStyle.body, 'justify-self');
+							mobileStyle.body = mobileStyle.body;
 							body.style = body.style;
 						}}><AlignCenter /></button
 					>
@@ -158,6 +197,8 @@
 						name="alignRight"
 						on:click={() => {
 							findExistingStyle('right', body.style, 'text-align');
+							findExistingStyle('flex-end', mobileStyle.body, 'justify-self');
+							mobileStyle.body = mobileStyle.body;
 							body.style = body.style;
 						}}><AlignRight /></button
 					>
@@ -169,6 +210,8 @@
 						class="colorInput"
 						on:input={(event) => {
 							findExistingStyle(event.currentTarget?.value, body.style, 'color');
+							findExistingStyle(event.currentTarget?.value, mobileStyle.body, 'background-color');
+							mobileStyle.body = mobileStyle.body;
 							body.style = body.style;
 						}}
 					/>
@@ -177,7 +220,7 @@
 		</div>
 		<textarea hidden id="styleMap" name="styleMap" bind:value={styleMapValue} />
 
-		<button type="submit" value="Submit" class="submit">Submit</button>
+		<button type="submit" value="Submit" class="submit">Create Blog</button>
 	</form>
 </div>
 
@@ -185,13 +228,20 @@
 	.container {
 		display: flex;
 		flex-direction: row;
-		width: 65%;
 		gap: 50px;
 	}
 	.blogContainer {
 		display: flex;
-		max-width: 60%;
 		flex: 2;
+	}
+	.styleBoxContainer {
+		display: grid;
+		width: 100%;
+	}
+	.styleBox {
+		width: 20px;
+		height: 20px;
+		background-color: red;
 	}
 	.submit {
 		all: unset;
@@ -207,6 +257,7 @@
 		color: #f9f9f9;
 		font-size: 12px;
 		transition: 0.5s all cubic-bezier(0.2, 0.9, 0.3, 1);
+		width: 100%;
 		&:hover {
 			background-color: #972f2f;
 		}
@@ -218,7 +269,7 @@
 		align-items: flex-start;
 		height: 100%;
 		flex: 1;
-		gap: 45px;
+		gap: 25px;
 	}
 	.flexContainer {
 		display: flex;
@@ -243,7 +294,6 @@
 	}
 	.input {
 		all: unset;
-		padding-left: 15px;
 		display: flex;
 		align-items: center;
 		width: 100%;
@@ -276,6 +326,9 @@
 	}
 	.labelContainer {
 		width: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
 	}
 	.colorInput {
 		all: unset;
