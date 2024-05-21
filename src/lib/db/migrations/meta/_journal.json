@@ -4,37 +4,9 @@
   "entries": [
     {
       "idx": 0,
-      "version": "5",
-      "when": 1714171262207,
-      "tag": "0000_tiny_nicolaos",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1714690991713,
-      "tag": "0001_ambiguous_devos",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1714692328743,
-      "tag": "0002_omniscient_blackheart",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1715037292540,
-      "tag": "0003_watery_lenny_balinger",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1715385210646,
-      "tag": "0004_fat_greymalkin",
+      "version": "6",
+      "when": 1716319959427,
+      "tag": "0000_empty_spiral",
       "breakpoints": true
     }
   ]

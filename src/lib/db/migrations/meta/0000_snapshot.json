@@ -1,10 +1,10 @@
 {
-  "id": "309e684a-6c30-4b22-8052-48806f757b5f",
+  "id": "62c9e308-22b0-4d56-8a96-5db738b75720",
   "prevId": "00000000-0000-0000-0000-000000000000",
-  "version": "5",
-  "dialect": "pg",
+  "version": "6",
+  "dialect": "postgresql",
   "tables": {
-    "blog": {
+    "public.blog": {
       "name": "blog",
       "schema": "",
       "columns": {
@@ -30,7 +30,13 @@
           "name": "authorId",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
+        },
+        "date": {
+          "name": "date",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -52,7 +58,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "starred_blogs": {
+    "public.starred_blogs": {
       "name": "starred_blogs",
       "schema": "",
       "columns": {
@@ -72,7 +78,7 @@
           "name": "userId",
           "type": "integer",
           "primaryKey": false,
-          "notNull": false
+          "notNull": true
         },
         "starred": {
           "name": "starred",
@@ -113,7 +119,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
+    "public.user": {
       "name": "user",
       "schema": "",
       "columns": {
@@ -125,6 +131,30 @@
         },
         "name": {
           "name": "name",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "sessionId": {
+          "name": "sessionId",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "salt": {
+          "name": "salt",
           "type": "varchar",
           "primaryKey": false,
           "notNull": true

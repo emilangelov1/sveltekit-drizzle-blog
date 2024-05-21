@@ -1,1 +1,0 @@
-ALTER TABLE "blog" ADD COLUMN "date" date NOT NULL;

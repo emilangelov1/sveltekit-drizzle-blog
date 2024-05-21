@@ -1,4 +1,6 @@
 import { boolean, integer, pgTable, serial, varchar, json, date } from 'drizzle-orm/pg-core';
+import { drizzle } from 'drizzle-orm/vercel-postgres';
+import { sql } from '@vercel/postgres';
 
 export const UserTable = pgTable('user', {
 	id: serial('id').primaryKey(),

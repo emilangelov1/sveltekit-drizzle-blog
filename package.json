@@ -11,7 +11,7 @@
 		"test": "vitest",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"db-generate": "drizzle-kit generate:pg",
+		"db-generate": "drizzle-kit generate",
 		"studio": "drizzle-kit studio",
 		"db-migrate": "tsx src/lib/db/index.ts"
 	},
